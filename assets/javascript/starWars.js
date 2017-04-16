@@ -3,7 +3,7 @@ var defenderPlayer;
 var selectedPlayerNotAvailable = "Please select your character and enemy";
 var enemyNotAvailable = "Please select your enemy to start playing"
 var emptyString = "";
-var totalHits = 0
+var totalHits = 0;
 var defenderBasePoints=0;
 
 
@@ -108,15 +108,22 @@ $(document).ready(function() {
         //$(".gameResult").html("Your character points " + selectedPlayer.basePoints);
         $(".selectedPlayer h4").html(selectedPlayer.basePoints);
         $(".defenderPlayer h4").html(defenderPlayer.basePoints);
+        
         if(selectedPlayer.basePoints < 0) {
            $(".gameResult").html("Game Over - Please click Restart"); 
            $("#attackMessage").html("");
         }
         else if (defenderPlayer.basePoints < 0) {
-            $(".gameResult").html("Please choose another Enemy");    
+            $(".gameResult").html("You won!! Please Restart or Choose another Enemy");    
             $("#attackMessage").html("");
+            defenderBasePoints = 0;
         }
+        console.log($(".choosePlayers").children().length);
+        if($(".choosePlayers").children().length===0) {
+             $(".gameResult").html("You have won all enemies! - Click Restart"); 
+           $("#attackMessage").html("");
 
+        }
 
     });
 
@@ -138,16 +145,24 @@ $(document).ready(function() {
     });
 
     document.getElementById("playerList").addEventListener("click", function(e) {
-        console.log(e);
+        
         if (e.target && e.target.matches("img.img-responsive")) {
 
             if ($(".defenderPlayer").children().length === 0 || (defenderBasePoints <=0)) {
                 var $clonePlayer = $(e.srcElement).clone();
 
                 if ($(".selectedPlayer").children().length > 0) {
-                    if(defenderBasePoints<= 0) {
-                     $(".defenderPlayer").empty();   
+                    if(!isEmpty(defenderPlayer))
+                    {
+                        if(defenderPlayer.basePoints<= 0) {
+                            $(".defenderPlayer").empty();   
+                            } 
+                            else {
+                                return;
+                            }   
                     }
+
+                    
                     $clonePlayer.appendTo($(".defenderPlayer"));
                     console.log($(e.srcElement).attr("id"));
                     defenderPlayer = playerList[$(e.srcElement).attr("id")];
@@ -170,5 +185,12 @@ $(document).ready(function() {
         }
 
     });
+
+    var isEmpty = function(obj) {
+  for (var key in obj)
+    if(obj.hasOwnProperty(key))
+      return false;
+  return true;
+}
 
 });
