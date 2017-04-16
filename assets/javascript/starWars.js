@@ -5,6 +5,7 @@ var enemyNotAvailable = "Please select your enemy to start playing"
 var emptyString = "";
 var totalHits = 0;
 var defenderBasePoints=0;
+var playMusic = new Audio("./assets/audio/POC.mp3");
 
 
 var playerList = {
@@ -73,8 +74,8 @@ $(document).ready(function() {
 
 
     initialize();
-
-
+    playMusic.load();
+    playMusic.play();
 
     $(".attack").on("click", function() {
 
@@ -210,4 +211,8 @@ $(document).ready(function() {
   return true;
 }
 
+playMusic.addEventListener('ended', function() {
+    this.currentTime = 0;
+    this.play();
+}, false);
 });
