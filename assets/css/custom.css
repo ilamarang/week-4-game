@@ -77,7 +77,7 @@ h5,
 h6 {
     font-family: "Montserrat", "Helvetica Neue", Helvetica, Arial, sans-serif;
     font-weight: 700;
-    background-color: teal;
+   
 }
 .navbar-brand {
     background-color: teal;
@@ -119,11 +119,7 @@ h3 {
 .with-margin {
     margin-bottom: 1em;
 }
-.caption {
-    width: 100%;
-    bottom: .8rem;
-    position: absolute;
-}
+
 .navbar-text {
     margin-top: 0;
     margin-bottom: 0;
