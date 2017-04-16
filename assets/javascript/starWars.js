@@ -103,6 +103,18 @@ $(document).ready(function() {
         selectedPlayer.basePoints = selectedPlayer.basePoints - defenderPlayer.attackingPower;
         defenderPlayer.basePoints = defenderPlayer.basePoints - (totalHits * selectedPlayer.attackingPower);
         defenderBasePoints = defenderPlayer.basePoints;
+
+        //$(".selectedPlayer").effect("explode","slow");
+        //$(".selectedPlayer").effect ("shake");
+
+        //$(".defenderPlayer").animate({right: '20px'});
+        //$(".selectedPlayer").delay(1000).animate({"right" : "+=300px"}, 1000);
+
+        //$(".selectedPlayer").animate({right: -20});
+
+        //$(".defenderPlayer").animate({left: '250px'});
+
+
         $("#attackMessage").html("You attacked " + defenderPlayer.name + " for " + (totalHits * selectedPlayer.attackingPower) + " damage");
 
         //$(".gameResult").html("Your character points " + selectedPlayer.basePoints);
@@ -117,6 +129,11 @@ $(document).ready(function() {
             $(".gameResult").html("You won!! Please Restart or Choose another Enemy");    
             $("#attackMessage").html("");
             defenderBasePoints = 0;
+            $(".defenderPlayer img").toggle("pulsate",function() {
+                console.log("after pulsate");   
+                $(".defenderPlayer").empty();
+            });
+
         }
         console.log($(".choosePlayers").children().length);
         if($(".choosePlayers").children().length===0) {
