@@ -4,6 +4,8 @@ var selectedPlayerNotAvailable = "Please select your character and enemy";
 var enemyNotAvailable = "Please select your enemy to start playing"
 var emptyString = "";
 var totalHits = 0
+var defenderBasePoints=0;
+
 
 var playerList = {
 
@@ -41,6 +43,7 @@ var playerList = {
 
 var displayPlayers = function(player) {
     console.log(player.name);
+    console.log(player.basePoints);
     var $columnDisplay = $("<div class='col-md-3 col-sm-6'>");
     var $thumbNailDisplay = $("<div class='col-xs-12 thumbnail text-center'>");
     var $responsiveImageDisplay = $("<img class='img-responsive' width='100%'>").attr("src", player.imageLocation).attr("id", player.name);
@@ -48,7 +51,7 @@ var displayPlayers = function(player) {
     var $captionAttackingPower = $("<h4 class='text-center'>")
     $captionAttackingPower.html(player.basePoints);
     //$($responsiveImageDisplay).appendTo($($thumbNailDisplay)).appendTo($($columnDisplay)).appendTo($(".choosePlayers"));
-    
+
     ($responsiveImageDisplay).appendTo($thumbNailDisplay).appendTo($columnDisplay);
     $captionAttackingPower.appendTo($captionDiv);
     $captionDiv.appendTo($columnDisplay);
@@ -69,60 +72,103 @@ var initialize = function() {
 $(document).ready(function() {
 
 
-            initialize();
+    initialize();
 
-            $(".img-responsive").on("click", function() {
 
-                if ($(".defenderPlayer").children().length === 0) {
-                    var $clonePlayer = $(this).clone();
 
-                    if ($(".selectedPlayer").children().length > 0) {
-                        $clonePlayer.appendTo($(".defenderPlayer"));
-                        console.log($(this).attr("id"));
-                        defenderPlayer = playerList[$(this).attr("id")];
-                        $(".gameResult").html(emptyString);
-                        var $captionAttackingPower = $("<h4 class='text-center'>")
-                        $captionAttackingPower.html(defenderPlayer.basePoints);
-                        $captionAttackingPower.appendTo($(".defenderPlayer"));
+    $(".attack").on("click", function() {
 
-                    } else {
+        //Check if the enemy is available
+        //alert(selectedPlayer.name);
+        
+        if (typeof selectedPlayer === 'undefined' || selectedPlayer === null) {
+            $(".gameResult").html(selectedPlayerNotAvailable);
+            return;
 
-                        $clonePlayer.appendTo($(".selectedPlayer"));
-                        selectedPlayer = playerList[$(this).attr("id")];
-                        var $captionAttackingPower = $("<h4 class='text-center'>")
-                        $captionAttackingPower.html(selectedPlayer.basePoints);
-                        $captionAttackingPower.appendTo($(".selectedPlayer"));
+        } else if (typeof defenderPlayer === 'undefined' || selectedPlayer === null) {
+            $(".gameResult").html(enemyNotAvailable);
+            return;
+        }
+        if (totalHits > 0 && selectedPlayer.basePoints < 0) {
+            //$(".gameResult").html("Your character points " + selectedPlayer.basePoints);                        
+            return;
+        }
+        if(selectedPlayer.basePoints < 0 || defenderPlayer.basePoints < 0) {
+            return;
+        }
+
+        //Start the game after verification
+        totalHits++;
+
+        selectedPlayer.basePoints = selectedPlayer.basePoints - defenderPlayer.attackingPower;
+        defenderPlayer.basePoints = defenderPlayer.basePoints - (totalHits * selectedPlayer.attackingPower);
+        defenderBasePoints = defenderPlayer.basePoints;
+        $("#attackMessage").html("You attacked " + defenderPlayer.name + " for " + (totalHits * selectedPlayer.attackingPower) + " damage");
+
+        //$(".gameResult").html("Your character points " + selectedPlayer.basePoints);
+        $(".selectedPlayer h4").html(selectedPlayer.basePoints);
+        $(".defenderPlayer h4").html(defenderPlayer.basePoints);
+        if(selectedPlayer.basePoints < 0) {
+           $(".gameResult").html("Game Over - Please click Restart"); 
+           $("#attackMessage").html("");
+        }
+        else if (defenderPlayer.basePoints < 0) {
+            $(".gameResult").html("Please choose another Enemy");    
+            $("#attackMessage").html("");
+        }
+
+
+    });
+
+    $(".restart").on("click", function() {
+        //Delete all child elements created
+        $(".selectedPlayer").empty();
+        $(".defenderPlayer").empty();
+        $(".choosePlayers").empty();
+        selectedPlayer = null;
+        defenderPlayer = null;
+        playerList["chewbacca"].basePoints = 100;
+        playerList["darth"].basePoints = 150;
+        playerList["greedo"].basePoints = 180;
+        playerList["yoda"].basePoints = 140;
+
+        totalHits = 0
+        initialize();
+
+    });
+
+    document.getElementById("playerList").addEventListener("click", function(e) {
+        console.log(e);
+        if (e.target && e.target.matches("img.img-responsive")) {
+
+            if ($(".defenderPlayer").children().length === 0 || (defenderBasePoints <=0)) {
+                var $clonePlayer = $(e.srcElement).clone();
+
+                if ($(".selectedPlayer").children().length > 0) {
+                    if(defenderBasePoints<= 0) {
+                     $(".defenderPlayer").empty();   
                     }
+                    $clonePlayer.appendTo($(".defenderPlayer"));
+                    console.log($(e.srcElement).attr("id"));
+                    defenderPlayer = playerList[$(e.srcElement).attr("id")];
+                    $(".gameResult").html(emptyString);
+                    var $captionAttackingPower = $("<h4 class='text-center'>")
+                    $captionAttackingPower.html(defenderPlayer.basePoints);
+                    $captionAttackingPower.appendTo($(".defenderPlayer"));
 
-                    $(this).parent().fadeOut();
+                } else {
+
+                    $clonePlayer.appendTo($(".selectedPlayer"));
+                    selectedPlayer = playerList[$(e.srcElement).attr("id")];
+                    var $captionAttackingPower = $("<h4 class='text-center'>")
+                    $captionAttackingPower.html(selectedPlayer.basePoints);
+                    $captionAttackingPower.appendTo($(".selectedPlayer"));
                 }
 
-            });
+                $(e.srcElement).parent().fadeOut();
+            }
+        }
 
-            $(".attack").on("click", function() {
+    });
 
-                    //Check if the enemy is available
-                    //alert(selectedPlayer.name);
-                    
-                    if (typeof selectedPlayer === 'undefined') {
-                        $(".gameResult").html(selectedPlayerNotAvailable);
-                        return;
-
-                    } else if (typeof defenderPlayer === 'undefined') {
-                        $(".gameResult").html(enemyNotAvailable);
-                        return;
-                    }
-
-                    //Start the game after verification
-                    totalHits++;
-
-                    selectedPlayer.basePoints = selectedPlayer.basePoints - defenderPlayer.attackingPower;
-                    defenderPlayer.basePoints = defenderPlayer.basePoints - (totalHits * selectedPlayer.attackingPower);
-                    $("#attackMessage").html("You attacked " + defenderPlayer.name + " for " + (totalHits * selectedPlayer.attackingPower)+ " damage");    
-
-                    //$(".gameResult").html("Your character points " + selectedPlayer.basePoints);
-                    $(".selectedPlayer h4").html(selectedPlayer.basePoints);    
-                    $(".defenderPlayer h4").html(defenderPlayer.basePoints);    
-                    });
-
-            });
+});
