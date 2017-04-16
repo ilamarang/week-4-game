@@ -75,17 +75,23 @@ $(document).ready(function() {
 
                 if ($(".defenderPlayer").children().length === 0) {
                     var $clonePlayer = $(this).clone();
-                    
+
                     if ($(".selectedPlayer").children().length > 0) {
                         $clonePlayer.appendTo($(".defenderPlayer"));
                         console.log($(this).attr("id"));
                         defenderPlayer = playerList[$(this).attr("id")];
                         $(".gameResult").html(emptyString);
+                        var $captionAttackingPower = $("<h4 class='text-center'>")
+                        $captionAttackingPower.html(defenderPlayer.basePoints);
+                        $captionAttackingPower.appendTo($(".defenderPlayer"));
 
                     } else {
 
                         $clonePlayer.appendTo($(".selectedPlayer"));
                         selectedPlayer = playerList[$(this).attr("id")];
+                        var $captionAttackingPower = $("<h4 class='text-center'>")
+                        $captionAttackingPower.html(selectedPlayer.basePoints);
+                        $captionAttackingPower.appendTo($(".selectedPlayer"));
                     }
 
                     $(this).parent().fadeOut();
