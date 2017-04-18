@@ -4,12 +4,12 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="description" content="Portfolio using Bootstrap Framework">
+    <meta name="description" content="Game using Bootstrap Framework">
     <meta name="keywords" content="HTML,CSS,Bootstrap,Responsive Design">
     <meta name="author" content="Star Wars Game">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>
-        Ilamaran Gurunathan - Portfolio
+        Star Wars - Survivor Series!
     </title>
     <link rel="stylesheet" type="text/css" href="./assets/css/reset.css">
     <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
@@ -19,11 +19,30 @@
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
     <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.js"></script>
+    <script type="text/javascript" src="./assets/javascript/typed.js"></script>
     <script type="text/javascript" src="./assets/javascript/starWars.js"></script>
+
 
 </head>
 
 <body>
+        <div class="container">
+        <div class="jumbotron">
+               
+
+        <div class="type-wrap">
+            <div id="typed-strings">
+           
+                <span>Star Wars Game - <strong>Survior of the Fittest!</strong> .</span>
+                <p>Choose a player <em>as your Character</em> to start the game.</p>
+                <p>Click on another player to select them as your enemy.</p>
+                <p>Click Attack button to reduce the enemies power!</p>
+                <p><em> Survivor of the Fittest </em> Game On!</p>
+           
+            </div>
+            <span id="typed" style="white-space:pre;"></span>
+        </div>
+        </div>
 
     <div class="container">
 
@@ -34,6 +53,10 @@
                 <div class="row choosePlayers" id="playerList">                 
                 </div>
             </div>
+            <div class="col-md-1">
+            <p> .</p>
+            </div>
+
         </div> 
         
         <div class="row">
@@ -43,7 +66,7 @@
                 </div>
             </div>
 
-            <div class="col-md-4">
+            <div class="col-md-4 text-center">
             <h3> Game Controls</h3>
                 <button type="button" class="btn btn-primary attack">Attack</button>
 

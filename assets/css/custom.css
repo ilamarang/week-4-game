@@ -84,7 +84,7 @@ h6 {
     background-color: teal;
 }
 body {
-    padding-top: 80px;
+    padding-top:3em;
 }
 .media-body a {
     float: left;
@@ -163,6 +163,19 @@ h3,h4 {
     float:left;
     
 }
+
+.jumbotron {
+    
+    
+    
+    font-size: 3em;
+    padding-top:0;
+    padding-bottom:0;
+    background-image: url("../images/star-wars-rogue.jpg");
+    color: white;
+    
+    
+}
 /* Lastly, apply responsive CSS fixes as necessary */
 
 @media (max-width: 767px) {
@@ -186,3 +199,45 @@ h3,h4 {
         transition: all 0.3s;
     }
 }
+
+/* code for animated blinking cursor */
+        .typed-cursor{
+            opacity: 1;
+            font-weight: 100;
+            -webkit-animation: blink 0.7s infinite;
+            -moz-animation: blink 0.7s infinite;
+            -ms-animation: blink 0.7s infinite;
+            -o-animation: blink 0.7s infinite;
+            animation: blink 0.7s infinite;
+        }
+        @-keyframes blink{
+            0% { opacity:1; }
+            50% { opacity:0; }
+            100% { opacity:1; }
+        }
+        @-webkit-keyframes blink{
+            0% { opacity:1; }
+            50% { opacity:0; }
+            100% { opacity:1; }
+        }
+        @-moz-keyframes blink{
+            0% { opacity:1; }
+            50% { opacity:0; }
+            100% { opacity:1; }
+        }
+        @-ms-keyframes blink{
+            0% { opacity:1; }
+            50% { opacity:0; }
+            100% { opacity:1; }
+        }
+        @-o-keyframes blink{
+            0% { opacity:1; }
+            50% { opacity:0; }
+            100% { opacity:1; }
+        }
+
+        .typed-fade-out{
+            opacity: 0;
+            animation: 0;
+            transition: opacity .25s;
+        }

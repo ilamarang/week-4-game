@@ -69,13 +69,39 @@ var initialize = function() {
         }
     }
 }
+document.addEventListener('DOMContentLoaded', function(){
+
+        Typed.new("#typed", {
+            stringsElement: document.getElementById('typed-strings'),
+            typeSpeed: 30,
+            backDelay: 500,
+            loop: false,
+            contentType: 'html', // or text
+            // defaults to null for infinite loop
+            loopCount: null,
+            callback: function(){ foo(); },
+            resetCallback: function() { newTyped(); }
+        });
+
+        var resetElement = document.querySelector('.reset');
+        if(resetElement) {
+            resetElement.addEventListener('click', function() {
+                document.getElementById('typed')._typed.reset();
+            });
+        }
+
+    });
+
+    function newTyped(){ /* A new typed object */ }
+
+    function foo(){ console.log("Callback"); }
 
 $(document).ready(function() {
 
 
     initialize();
     playMusic.load();
-    playMusic.play();
+    //playMusic.play();
 
     $(".attack").on("click", function() {
 
@@ -168,6 +194,7 @@ $(document).ready(function() {
 
             if ($(".defenderPlayer").children().length === 0 || (defenderBasePoints <=0)) {
                 var $clonePlayer = $(e.srcElement).clone();
+            
 
                 if ($(".selectedPlayer").children().length > 0) {
                     if(!isEmpty(defenderPlayer))
@@ -215,4 +242,5 @@ playMusic.addEventListener('ended', function() {
     this.currentTime = 0;
     this.play();
 }, false);
+
 });
