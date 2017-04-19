@@ -1,3 +1,5 @@
+
+//Declare all Global variables to maintain the state of the game.
 var selectedPlayer;
 var defenderPlayer;
 var selectedPlayerNotAvailable = "Please select your character and enemy";
@@ -7,11 +9,11 @@ var totalHits = 0;
 var defenderBasePoints=0;
 var playMusic = new Audio("./assets/audio/POC.mp3");
 
-
+//Define the list of players in an Object List that holds the charcater details.
 var playerList = {
 
-    "chewbacca": {
-        name: "chewbacca",
+    "Chewbacca": {
+        name: "Chewbacca",
         imageLocation: "./assets/images/Chewbecca.jpg",
         basePoints: 100,
         attackingPower: 5
@@ -19,22 +21,22 @@ var playerList = {
 
     },
 
-    "darth": {
-        name: "darth",
+    "Darth": {
+        name: "Darth",
         imageLocation: "./assets/images/Darth.jpg",
         basePoints: 150,
         attackingPower: 8
     },
 
-    "greedo": {
-        name: "greedo",
+    "Greedo": {
+        name: "Greedo",
         imageLocation: "./assets/images/Greedo.jpg",
         basePoints: 180,
         attackingPower: 3
     },
 
-    "yoda": {
-        name: "yoda",
+    "Yoda": {
+        name: "Yoda",
         imageLocation: "./assets/images/Yoda.jpg",
         basePoints: 140,
         attackingPower: 15
@@ -131,20 +133,9 @@ $(document).ready(function() {
         defenderPlayer.basePoints = defenderPlayer.basePoints - (totalHits * selectedPlayer.attackingPower);
         defenderBasePoints = defenderPlayer.basePoints;
 
-        //$(".selectedPlayer").effect("explode","slow");
-        //$(".selectedPlayer").effect ("shake");
 
-        //$(".defenderPlayer").animate({right: '20px'});
-        //$(".selectedPlayer").delay(1000).animate({"right" : "+=300px"}, 1000);
+        $("#attackMessage").html("You attacked " + defenderPlayer.name + " for " + (totalHits * selectedPlayer.attackingPower) + " damage <br> <br>" + defenderPlayer.name + " attacked You for "+ defenderPlayer.attackingPower + " damage" );
 
-        //$(".selectedPlayer").animate({right: -20});
-
-        //$(".defenderPlayer").animate({left: '250px'});
-
-
-        $("#attackMessage").html("You attacked " + defenderPlayer.name + " for " + (totalHits * selectedPlayer.attackingPower) + " damage");
-
-        //$(".gameResult").html("Your character points " + selectedPlayer.basePoints);
         $(".selectedPlayer h4").html(selectedPlayer.basePoints);
         $(".defenderPlayer h4").html(defenderPlayer.basePoints);
         
@@ -160,6 +151,7 @@ $(document).ready(function() {
                 console.log("after pulsate");   
                 $(".defenderPlayer").empty();
             });
+
 
         }
         console.log($(".choosePlayers").children().length);
@@ -178,10 +170,10 @@ $(document).ready(function() {
         $(".choosePlayers").empty();
         selectedPlayer = null;
         defenderPlayer = null;
-        playerList["chewbacca"].basePoints = 100;
-        playerList["darth"].basePoints = 150;
-        playerList["greedo"].basePoints = 180;
-        playerList["yoda"].basePoints = 140;
+        playerList["Chewbacca"].basePoints = 100;
+        playerList["Darth"].basePoints = 150;
+        playerList["Greedo"].basePoints = 180;
+        playerList["Yoda"].basePoints = 140;
 
         totalHits = 0
         initialize();
@@ -231,7 +223,7 @@ $(document).ready(function() {
 
     });
 
-    var isEmpty = function(obj) {
+var isEmpty = function(obj) {
   for (var key in obj)
     if(obj.hasOwnProperty(key))
       return false;
