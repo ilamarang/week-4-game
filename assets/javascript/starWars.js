@@ -1,4 +1,3 @@
-
 //Declare all Global variables to maintain the state of the game.
 var selectedPlayer;
 var defenderPlayer;
@@ -6,7 +5,7 @@ var selectedPlayerNotAvailable = "Please select your character and enemy";
 var enemyNotAvailable = "Please select your enemy to start playing"
 var emptyString = "";
 var totalHits = 0;
-var defenderBasePoints=0;
+var defenderBasePoints = 0;
 var playMusic = new Audio("./assets/audio/POC.mp3");
 
 //Define the list of players in an Object List that holds the charcater details.
@@ -17,7 +16,6 @@ var playerList = {
         imageLocation: "./assets/images/Chewbecca.jpg",
         basePoints: 100,
         attackingPower: 5
-
 
     },
 
@@ -44,6 +42,7 @@ var playerList = {
 
 };
 
+//Dynamically display players based on the object List.
 var displayPlayers = function(player) {
     console.log(player.name);
     console.log(player.basePoints);
@@ -62,6 +61,7 @@ var displayPlayers = function(player) {
 
 }
 
+
 var initialize = function() {
 
     //Build the list of all players and display them in the appropriate section.
@@ -71,44 +71,51 @@ var initialize = function() {
         }
     }
 }
-document.addEventListener('DOMContentLoaded', function(){
 
-        Typed.new("#typed", {
-            stringsElement: document.getElementById('typed-strings'),
-            typeSpeed: 30,
-            backDelay: 500,
-            loop: false,
-            contentType: 'html', // or text
-            // defaults to null for infinite loop
-            loopCount: null,
-            callback: function(){ foo(); },
-            resetCallback: function() { newTyped(); }
-        });
+//Plugin function(s) to provide typewritter effect on the screen.
+document.addEventListener('DOMContentLoaded', function() {
 
-        var resetElement = document.querySelector('.reset');
-        if(resetElement) {
-            resetElement.addEventListener('click', function() {
-                document.getElementById('typed')._typed.reset();
-            });
+    Typed.new("#typed", {
+        stringsElement: document.getElementById('typed-strings'),
+        typeSpeed: 30,
+        backDelay: 500,
+        loop: false,
+        contentType: 'html', // or text
+        // defaults to null for infinite loop
+        loopCount: null,
+        callback: function() {
+            foo();
+        },
+        resetCallback: function() {
+            newTyped();
         }
-
     });
 
-    function newTyped(){ /* A new typed object */ }
+    var resetElement = document.querySelector('.reset');
+    if (resetElement) {
+        resetElement.addEventListener('click', function() {
+            document.getElementById('typed')._typed.reset();
+        });
+    }
 
-    function foo(){ console.log("Callback"); }
+});
+
+function newTyped() { /* A new typed object */ }
+
+function foo() {
+    console.log("Callback");
+}
 
 $(document).ready(function() {
 
 
     initialize();
     playMusic.load();
-    //playMusic.play();
+    playMusic.play();
 
     $(".attack").on("click", function() {
 
         //Check if the enemy is available
-        //alert(selectedPlayer.name);
         
         if (typeof selectedPlayer === 'undefined' || selectedPlayer === null) {
             $(".gameResult").html(selectedPlayerNotAvailable);
@@ -119,10 +126,10 @@ $(document).ready(function() {
             return;
         }
         if (totalHits > 0 && selectedPlayer.basePoints < 0) {
-            //$(".gameResult").html("Your character points " + selectedPlayer.basePoints);                        
+                                    
             return;
         }
-        if(selectedPlayer.basePoints < 0 || defenderPlayer.basePoints < 0) {
+        if (selectedPlayer.basePoints < 0 || defenderPlayer.basePoints < 0) {
             return;
         }
 
@@ -134,40 +141,41 @@ $(document).ready(function() {
         defenderBasePoints = defenderPlayer.basePoints;
 
 
-        $("#attackMessage").html("You attacked " + defenderPlayer.name + " for " + (totalHits * selectedPlayer.attackingPower) + " damage <br> <br>" + defenderPlayer.name + " attacked You for "+ defenderPlayer.attackingPower + " damage" );
+        $("#attackMessage").html("You attacked " + defenderPlayer.name + " for " + (totalHits * selectedPlayer.attackingPower) + " damage <br> <br>" + defenderPlayer.name + " attacked You for " + defenderPlayer.attackingPower + " damage");
 
         $(".selectedPlayer h4").html(selectedPlayer.basePoints);
         $(".defenderPlayer h4").html(defenderPlayer.basePoints);
-        
-        if(selectedPlayer.basePoints < 0) {
-           $(".gameResult").html("Game Over - Please click Restart"); 
-           $("#attackMessage").html("");
-        }
-        else if (defenderPlayer.basePoints < 0) {
-            $(".gameResult").html("You won!! Please Restart or Choose another Enemy");    
+
+        if (selectedPlayer.basePoints <= 0) {
+            $(".gameResult").html("You Lost!! Game Over - Please click Restart");
+            $("#attackMessage").html("");
+        } else if (defenderPlayer.basePoints <= 0) {
+            $(".gameResult").html("You won!! Please Restart or Choose another Enemy");
             $("#attackMessage").html("");
             defenderBasePoints = 0;
-            $(".defenderPlayer img").toggle("pulsate",function() {
-                console.log("after pulsate");   
+            $(".defenderPlayer img").toggle("pulsate", function() {
+                console.log("after pulsate");
                 $(".defenderPlayer").empty();
             });
 
 
         }
         console.log($(".choosePlayers").children().length);
-        if($(".choosePlayers").children().length===0) {
-             $(".gameResult").html("You have won all enemies! - Click Restart"); 
-           $("#attackMessage").html("");
+        if ($(".choosePlayers").children().length === 0) {
+            $(".gameResult").html("You have won all enemies! - Click Restart");
+            $("#attackMessage").html("");
 
         }
 
     });
 
+    //Logic to initialize and reset the game once Restart button is clicked
     $(".restart").on("click", function() {
         //Delete all child elements created
         $(".selectedPlayer").empty();
         $(".defenderPlayer").empty();
         $(".choosePlayers").empty();
+        $(".gameResult").html("");
         selectedPlayer = null;
         defenderPlayer = null;
         playerList["Chewbacca"].basePoints = 100;
@@ -181,25 +189,23 @@ $(document).ready(function() {
     });
 
     document.getElementById("playerList").addEventListener("click", function(e) {
-        
+
         if (e.target && e.target.matches("img.img-responsive")) {
 
-            if ($(".defenderPlayer").children().length === 0 || (defenderBasePoints <=0)) {
+            if ($(".defenderPlayer").children().length === 0 || (defenderBasePoints <= 0)) {
                 var $clonePlayer = $(e.srcElement).clone();
-            
+
 
                 if ($(".selectedPlayer").children().length > 0) {
-                    if(!isEmpty(defenderPlayer))
-                    {
-                        if(defenderPlayer.basePoints<= 0) {
-                            $(".defenderPlayer").empty();   
-                            } 
-                            else {
-                                return;
-                            }   
+                    if (!isEmpty(defenderPlayer)) {
+                        if (defenderPlayer.basePoints <= 0) {
+                            $(".defenderPlayer").empty();
+                        } else {
+                            return;
+                        }
                     }
 
-                    
+
                     $clonePlayer.appendTo($(".defenderPlayer"));
                     console.log($(e.srcElement).attr("id"));
                     defenderPlayer = playerList[$(e.srcElement).attr("id")];
@@ -223,16 +229,17 @@ $(document).ready(function() {
 
     });
 
-var isEmpty = function(obj) {
-  for (var key in obj)
-    if(obj.hasOwnProperty(key))
-      return false;
-  return true;
-}
+    var isEmpty = function(obj) {
+        for (var key in obj)
+            if (obj.hasOwnProperty(key))
+                return false;
+        return true;
+    }
 
-playMusic.addEventListener('ended', function() {
-    this.currentTime = 0;
-    this.play();
-}, false);
+    //Loop music after it gets an "ended" event
+    playMusic.addEventListener('ended', function() {
+        this.currentTime = 0;
+        this.play();
+    }, false);
 
 });
